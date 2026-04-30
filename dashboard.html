@@ -219,104 +219,104 @@
     }
 
     /* Landing page inside browser */
-    .lp-logo-bar {
-      padding: 6px 14px;
+    .lp-nav {
+      padding: 8px 14px;
       border-bottom: 1px solid var(--gray-200);
       display: flex;
       align-items: center;
-    }
-
-    .lp-logo-bar img {
-      height: 22px;
-      object-fit: contain;
-    }
-
-    .lp-hero {
-      height: 140px;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: 16px;
-    }
-
-    .lp-hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
-    }
-
-    .lp-hero-text {
-      position: relative;
-      z-index: 1;
-    }
-
-    .lp-hero-text h3 {
-      font-size: 15px;
-      font-weight: 800;
-      color: white;
-      line-height: 1.2;
-      margin-bottom: 2px;
-    }
-
-    .lp-hero-text p {
-      font-size: 11px;
-      color: rgba(255,255,255,0.8);
-    }
-
-    .lp-body {
-      padding: 14px 16px;
+      justify-content: space-between;
       background: white;
     }
 
-    .lp-cta-btn {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      font-size: 13px;
+    .lp-nav img { height: 22px; object-fit: contain; }
+
+    .lp-nav-phone {
+      font-size: 11px;
       font-weight: 700;
-      color: white;
-      cursor: pointer;
-      margin-bottom: 12px;
-      font-family: inherit;
-      text-align: center;
+      color: #2ea3f2;
+    }
+
+    .lp-content {
+      display: flex;
+      gap: 0;
+    }
+
+    .lp-left {
+      flex: 1;
+      padding: 16px 14px;
+      border-right: 1px solid var(--gray-200);
+    }
+
+    .lp-left h3 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .lp-left p {
+      font-size: 11px;
+      color: var(--slate);
+      line-height: 1.5;
+      margin-bottom: 10px;
     }
 
     .lp-trust {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 0;
+      flex-direction: column;
+      gap: 5px;
     }
 
     .lp-trust-item {
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      color: var(--slate);
-      font-weight: 500;
-    }
-
-    .lp-divider { height: 1px; background: var(--gray-100); margin: 12px 0; }
-
-    .lp-phone {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--navy);
-    }
-
-    .lp-phone-label {
+      gap: 5px;
       font-size: 10px;
-      font-weight: 500;
       color: var(--slate);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+
+    .lp-right {
+      width: 180px;
+      flex-shrink: 0;
+      padding: 14px 12px;
+      background: #F8FAFC;
+    }
+
+    .lp-form-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .lp-field {
+      width: 100%;
+      border: 1px solid var(--gray-200);
+      border-radius: 5px;
+      padding: 7px 9px;
+      font-size: 10px;
+      font-family: inherit;
+      color: var(--slate);
+      margin-bottom: 6px;
+      background: white;
+      outline: none;
+    }
+
+    .lp-submit {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: center;
+      margin-top: 2px;
     }
   </style>
 </head>
@@ -360,29 +360,28 @@
             <div class="browser-dots"><span></span><span></span><span></span></div>
             <div class="browser-url">bennyspainting.com/house-painting-edmonton</div>
           </div>
-          <div class="lp-logo-bar">
+          <div class="lp-nav">
             <img src="https://bennyspainting.com/wp-content/uploads/2021/04/Bennys_logo_400-2.png" alt="Benny's Painting" />
+            <div class="lp-nav-phone">780-710-4234</div>
           </div>
-          <div class="lp-hero" style="background: linear-gradient(135deg, #0a2a4a 0%, #1a5276 50%, #2ea3f2 100%);">
-            <div class="lp-hero-text">
-              <h3>House Painting in Edmonton</h3>
-              <p>Quality Painting, It's What We Do.</p>
-            </div>
-          </div>
-          <div class="lp-body">
-            <button class="lp-cta-btn" style="background: #2ea3f2;">Get a Free Estimate →</button>
-            <div class="lp-trust">
-              <div class="lp-trust-item"><span class="icon">⭐</span> 20+ years serving Edmonton</div>
-              <div class="lp-trust-item"><span class="icon">✓</span> Licensed, bonded & insured</div>
-              <div class="lp-trust-item"><span class="icon">✓</span> 2-year guarantee</div>
-            </div>
-            <div class="lp-divider"></div>
-            <div class="lp-phone">
-              <span>📞</span>
-              <div>
-                <div class="lp-phone-label">Call us directly</div>
-                780-710-4234
+          <div class="lp-content">
+            <div class="lp-left">
+              <h3>House Painting in Edmonton — Free Estimates</h3>
+              <p>20+ years serving Edmonton homeowners. Licensed, bonded & insured. 2-year written guarantee on every job.</p>
+              <div class="lp-trust">
+                <div class="lp-trust-item"><span>⭐</span> 4.9 rating · 100+ reviews</div>
+                <div class="lp-trust-item"><span>✓</span> Licensed, bonded & insured (WCB)</div>
+                <div class="lp-trust-item"><span>✓</span> 2-year written guarantee</div>
+                <div class="lp-trust-item"><span>✓</span> Free estimates — Edmonton & St. Albert</div>
               </div>
+            </div>
+            <div class="lp-right">
+              <div class="lp-form-title">Get a Free Estimate</div>
+              <input class="lp-field" type="text" placeholder="Your name" readonly />
+              <input class="lp-field" type="text" placeholder="Phone number" readonly />
+              <input class="lp-field" type="text" placeholder="Email address" readonly />
+              <input class="lp-field" type="text" placeholder="Service needed" readonly />
+              <button class="lp-submit" style="background: #2ea3f2;">Get My Free Estimate →</button>
             </div>
           </div>
         </div>
