@@ -219,8 +219,20 @@
     }
 
     /* Landing page inside browser */
+    .lp-logo-bar {
+      padding: 6px 14px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+    }
+
+    .lp-logo-bar img {
+      height: 22px;
+      object-fit: contain;
+    }
+
     .lp-hero {
-      height: 160px;
+      height: 140px;
       position: relative;
       display: flex;
       align-items: flex-end;
@@ -231,7 +243,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
     }
 
     .lp-hero-text {
@@ -249,60 +261,51 @@
 
     .lp-hero-text p {
       font-size: 11px;
-      color: rgba(255,255,255,0.85);
-    }
-
-    .lp-logo-bar {
-      padding: 8px 16px;
-      border-bottom: 1px solid var(--gray-200);
-      display: flex;
-      align-items: center;
-    }
-
-    .lp-logo-bar img {
-      height: 28px;
-      object-fit: contain;
+      color: rgba(255,255,255,0.8);
     }
 
     .lp-body {
-      padding: 16px;
+      padding: 14px 16px;
+      background: white;
     }
 
     .lp-cta-btn {
       display: block;
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       border: none;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 6px;
+      font-size: 13px;
       font-weight: 700;
       color: white;
       cursor: pointer;
       margin-bottom: 12px;
       font-family: inherit;
+      text-align: center;
     }
 
     .lp-trust {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 0;
     }
 
     .lp-trust-item {
-      font-size: 12px;
-      color: var(--slate);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--slate);
+      font-weight: 500;
     }
 
-    .lp-divider { height: 1px; background: var(--gray-200); margin-bottom: 12px; }
+    .lp-divider { height: 1px; background: var(--gray-100); margin: 12px 0; }
 
     .lp-phone {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
       font-size: 13px;
       font-weight: 600;
       color: var(--navy);
@@ -369,9 +372,9 @@
           <div class="lp-body">
             <button class="lp-cta-btn" style="background: #2ea3f2;">Get a Free Estimate →</button>
             <div class="lp-trust">
-              <div class="lp-trust-item"><span>⭐</span> 20+ years serving Edmonton</div>
-              <div class="lp-trust-item"><span>✓</span> Licensed, bonded & insured (WCB)</div>
-              <div class="lp-trust-item"><span>✓</span> 2-year written guarantee</div>
+              <div class="lp-trust-item"><span class="icon">⭐</span> 20+ years serving Edmonton</div>
+              <div class="lp-trust-item"><span class="icon">✓</span> Licensed, bonded & insured</div>
+              <div class="lp-trust-item"><span class="icon">✓</span> 2-year guarantee</div>
             </div>
             <div class="lp-divider"></div>
             <div class="lp-phone">
