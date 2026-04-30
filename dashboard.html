@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomeOps Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0F172A;
+      --navy-mid: #1E293B;
+      --slate: #64748B;
+      --blue: #2563EB;
+      --white: #FFFFFF;
+      --gray-100: #F1F5F9;
+      --gray-200: #E2E8F0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--navy);
+      background: var(--gray-100);
+      min-height: 100vh;
+    }
+
+    /* Password overlay */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #gate.hidden { display: none; }
+
+    .gate-box {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      width: 340px;
+      text-align: center;
+    }
+
+    .gate-box h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .gate-box p {
+      font-size: 14px;
+      color: var(--slate);
+      margin-bottom: 24px;
+    }
+
+    .gate-box input {
+      width: 100%;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    .gate-box input:focus { border-color: var(--blue); }
+
+    .gate-box button {
+      width: 100%;
+      background: var(--blue);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .gate-error {
+      font-size: 13px;
+      color: #DC2626;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Dashboard */
+    #dashboard { display: none; }
+    #dashboard.visible { display: block; }
+
+    .dash-header {
+      background: var(--navy);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dash-header h1 {
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .dash-header span {
+      font-size: 13px;
+      color: #64748B;
+    }
+
+    .dash-body {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .client-block {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 40px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .client-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--slate);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    /* Fake Google Ad */
+    .fake-ad-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--slate);
+      margin-bottom: 8px;
+    }
+
+    .fake-ad {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .fake-ad-url { font-size: 11px; color: #16A34A; margin-bottom: 3px; }
+    .fake-ad-title { font-size: 15px; font-weight: 600; color: #1a0dab; margin-bottom: 3px; }
+    .fake-ad-desc { font-size: 12px; color: #4d5156; line-height: 1.5; }
+
+    .arrow-connector {
+      text-align: center;
+      font-size: 18px;
+      color: var(--slate);
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .arrow-connector span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Browser mockup */
+    .browser-mockup {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      border: 1px solid var(--gray-200);
+      background: white;
+    }
+
+    .browser-bar {
+      background: #F1F5F9;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .browser-dots { display: flex; gap: 5px; flex-shrink: 0; }
+    .browser-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .browser-dots span:nth-child(1) { background: #FF5F57; }
+    .browser-dots span:nth-child(2) { background: #FEBC2E; }
+    .browser-dots span:nth-child(3) { background: #28C840; }
+
+    .browser-url {
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: var(--slate);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Landing page inside browser */
+    .lp-hero {
+      height: 160px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 16px;
+    }
+
+    .lp-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+    }
+
+    .lp-hero-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .lp-hero-text h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .lp-hero-text p {
+      font-size: 11px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .lp-logo-bar {
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+    }
+
+    .lp-logo-bar img {
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .lp-body {
+      padding: 16px;
+    }
+
+    .lp-cta-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      margin-bottom: 12px;
+      font-family: inherit;
+    }
+
+    .lp-trust {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .lp-trust-item {
+      font-size: 12px;
+      color: var(--slate);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lp-divider { height: 1px; background: var(--gray-200); margin-bottom: 12px; }
+
+    .lp-phone {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .lp-phone-label {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Password gate -->
+  <div id="gate">
+    <div class="gate-box">
+      <h1>HomeOps Dashboard</h1>
+      <p>Private mockup library</p>
+      <input type="password" id="pw-input" placeholder="Password" />
+      <button onclick="checkPassword()">Enter</button>
+      <div class="gate-error" id="pw-error">Wrong password.</div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard">
+    <div class="dash-header">
+      <h1>HomeOps Mockup Dashboard</h1>
+      <span>Private</span>
+    </div>
+
+    <div class="dash-body">
+
+      <!-- Benny's Painting -->
+      <div class="client-block" id="bennys-painting">
+        <div class="client-label">Benny's Painting LTD. — Edmonton, AB</div>
+
+        <div class="fake-ad-label">The ad</div>
+        <div class="fake-ad">
+          <div class="fake-ad-url">✦ Ad · bennyspainting.com/house-painting-edmonton</div>
+          <div class="fake-ad-title">Benny's Painting Edmonton | 20+ Years Experience</div>
+          <div class="fake-ad-desc">Licensed, bonded & insured painters. Free estimates in Edmonton & St. Albert. 2-year written guarantee. Call 780-710-4234.</div>
+        </div>
+
+        <div class="arrow-connector">↓ <span>Someone clicks. They land here.</span></div>
+
+        <div class="browser-mockup">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">bennyspainting.com/house-painting-edmonton</div>
+          </div>
+          <div class="lp-logo-bar">
+            <img src="https://bennyspainting.com/wp-content/uploads/2021/04/Bennys_logo_400-2.png" alt="Benny's Painting" />
+          </div>
+          <div class="lp-hero" style="background: linear-gradient(135deg, #0a2a4a 0%, #1a5276 50%, #2ea3f2 100%);">
+            <div class="lp-hero-text">
+              <h3>House Painting in Edmonton</h3>
+              <p>Quality Painting, It's What We Do.</p>
+            </div>
+          </div>
+          <div class="lp-body">
+            <button class="lp-cta-btn" style="background: #2ea3f2;">Get a Free Estimate →</button>
+            <div class="lp-trust">
+              <div class="lp-trust-item"><span>⭐</span> 20+ years serving Edmonton</div>
+              <div class="lp-trust-item"><span>✓</span> Licensed, bonded & insured (WCB)</div>
+              <div class="lp-trust-item"><span>✓</span> 2-year written guarantee</div>
+            </div>
+            <div class="lp-divider"></div>
+            <div class="lp-phone">
+              <span>📞</span>
+              <div>
+                <div class="lp-phone-label">Call us directly</div>
+                780-710-4234
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add more client blocks below -->
+
+    </div>
+  </div>
+
+  <script>
+    const PW = "homeops2026";
+
+    if (sessionStorage.getItem("ho_auth") === "1") {
+      unlock();
+    }
+
+    document.getElementById("pw-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") checkPassword();
+    });
+
+    function checkPassword() {
+      const val = document.getElementById("pw-input").value;
+      if (val === PW) {
+        sessionStorage.setItem("ho_auth", "1");
+        unlock();
+      } else {
+        document.getElementById("pw-error").style.display = "block";
+      }
+    }
+
+    function unlock() {
+      document.getElementById("gate").classList.add("hidden");
+      document.getElementById("dashboard").classList.add("visible");
+    }
+  </script>
+
+</body>
+</html>
